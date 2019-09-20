@@ -15,6 +15,7 @@
 	
 	$ovfPropertyChanges."hostname" = $name
 	$ovfPropertyChanges."instance-id" = get-vm $name | %{(Get-View $_.Id).config.InstanceUuid}
+	$user_data_file = Resolve-Path $user_data_file
 	$user_data = [Convert]::ToBase64String([IO.File]::ReadAllBytes($user_data_file))
 	$ovfPropertyChanges."user-data" = $user_data
 	$result = Set-VMOvfProperty -VM (Get-VM -Name $name) -ovfChanges $ovfPropertyChanges
